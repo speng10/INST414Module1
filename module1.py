@@ -15,8 +15,10 @@ data.isnull().sum().sort_values(ascending=False)
 def plot_temperature_distribution(data):
     plt.figure(figsize=(10, 6))
     sns.boxplot(x='City', y='temp', data=data, color='lightblue')
-    plt.title('Temperature Distribution Across Cities')
+    # Set plot title and labels
+    plt.title('Average Temperature Distribution Across Cities')
     plt.ylabel('Average Temperature (°F)')
+    # Display the plot
     plt.show()
 
 # Function for average Health Risk Score Comparison
@@ -36,13 +38,15 @@ def plot_health_risk_score(data):
 def plot_precipitation_prob(data):
     plt.figure(figsize=(10, 6))
     sns.barplot(x='City', y='precipprob', data=data, color='blue')
+    # Set the plot title and labels
     plt.title('Precipitation Probability by City')
     plt.ylabel('Precipitation Probability (%)')
+    # Display the plot
     plt.show()
 
 def plot_severity_score(data):
     plt.figure(figsize=(12, 6))
-    # Ensure 'DateTime' is in datetime format
+    # 'DateTime' is in datetime format
     data['DateTime'] = pd.to_datetime(data['datetime'], format='%Y-%m-%d')
     # Create a line plot with 'Date' on the x-axis and 'Severity_Score' on the y-axis
     sns.lineplot(x='datetime', y='Severity_Score', hue='City', data=data, marker='o')
@@ -57,45 +61,17 @@ def plot_severity_score(data):
     # Display the plot
     plt.tight_layout()
     plt.show()
-    
-#total daily precipitation 
-def plot_daily_precipitation(data):
-    plt.figure(figsize=(12, 6))
-    # Ensure 'DateTime' is in datetime format
-    data['datetime'] = pd.to_datetime(data['datetime'], format='%Y-%m-%d')
-    # Extract the month from the DateTime column
-    data['Month'] = data['datetime'].dt.strftime('%Y-%m-%d')  # Format as 'YYYY-MM' for clarity
-    # Group by City and Month, and calculate the total precipitation for each month
-    monthly_precip = data.groupby(['City', 'Month'])['precip'].sum().reset_index()
-    # Create a line plot with 'Month' on the x-axis and total precipitation on the y-axis
-    sns.lineplot(x='Month', y='precip', hue='City', data=monthly_precip, marker='o')
-    
-    # Set the plot title and labels
-    plt.title('Total Daily Precipitation by City')
-    plt.ylabel('Total Precipitation (inches)')
-    plt.xlabel('Date')
-
-    # Display the plot
-    plt.tight_layout()
-    plt.show()
 
 def plot_health_risk_by_time(data):
     plt.figure(figsize=(12, 6))
-    
-    # Ensure 'DateTime' is in datetime format
+    # 'DateTime' is in datetime format
     data['datetime'] = pd.to_datetime(data['datetime'], format='%Y-%m-%d')
-    
     # Create a line plot with 'Time' on the x-axis and Health_Risk_Score on the y-axis
     sns.lineplot(x='datetime', y='Health_Risk_Score', hue='City', data=data, marker='o')
-    
     # Set the plot title and labels
     plt.title('Health Risk Score by Time of Day for Each City')
     plt.ylabel('Health Risk Score')
     plt.xlabel('Date')
-    
-    # Rotate x-axis labels for better readability
-    plt.xticks(rotation=45)
-    
     # Display the plot
     plt.tight_layout()
     plt.show()
@@ -105,5 +81,4 @@ plot_temperature_distribution(data)
 plot_health_risk_score(data)
 plot_precipitation_prob(data)
 plot_severity_score(data)
-plot_daily_precipitation(data)
 plot_health_risk_by_time(data)
